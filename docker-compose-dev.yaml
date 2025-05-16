@@ -15,10 +15,8 @@ services:
   db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: decamind
-      MYSQL_USER: decamind
-      MYSQL_PASSWORD: decamind
-      MYSQL_ROOT_PASSWORD: decamind
+      MYSQL_DATABASE: chatbot_db
+      MYSQL_ROOT_PASSWORD: root1234
     ports:
       - '3306:3306'
     volumes:
