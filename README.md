@@ -77,7 +77,7 @@ llm.py - LLM 로딩 및 HuggingFace 파이프라인 생성
 
 retriever.py - 벡터 DB 로딩 및 LangChain QA 체인 설정
 
-🐳 Docker 관련
+# 🐳 Docker 관련
 docker-compose-dev.yaml
 개발 환경용 MySQL 컨테이너 설정
 
@@ -86,14 +86,14 @@ init/schema.sql 파일로 DB 자동 초기화
 Dockerfile (선택)
 FastAPI 앱 도커 이미지로 패키징 시 사용
 
-⚠️ 주의사항
+# ⚠️ 주의사항
 .env 파일은 절대 깃허브에 올리지 마세요 (.gitignore에 등록됨)
 
 서버 실행 전 Docker MySQL이 정상 실행되고 있는지 확인하세요.
 
 SentencePiece, bitsandbytes, transformers 등의 의존성은 모델에 따라 추가 설치가 필요할 수 있습니다.
 
-🤝 프론트엔드 연동 정보
+# 🤝 프론트엔드 연동 정보
 프론트는 React 기반이며, 다음 API를 호출합니다:
 
 /v1/conversations (생성/조회/수정/삭제)
