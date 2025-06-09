@@ -10,34 +10,30 @@ LLM 기반 자연어 질문에 대해 관련 사내 문서를 검색하고, 응�
 ## ⚙️ 실행 방법
 
 ### 1. 프로젝트 폴더 이동
-```bash
+
 cd backend
-2. 가상환경 실행
-bash
-복사
-편집
+### 2. 가상환경 실행
+
 # PowerShell
 .\venv\Scripts\Activate.ps1
 
 # 또는 CMD
 venv\Scripts\activate.bat
-3. 패키지 설치
-bash
-복사
-편집
+
+### 3. 패키지 설치
+
 pip install -r requirements.txt
 
-4. 도커로 MySQL 실행
-bash
-복사
-편집
+### 4. 도커로 MySQL 실행
+
 docker-compose -f docker-compose-dev.yaml up -d
-5. 서버 실행
-bash
-복사
-편집
+
+### 5. 서버 실행
+
 uvicorn main:app --reload
-6. Swagger 문서 접속
+
+### 6. Swagger 문서 접속
+
 http://localhost:8000/docs
 
 🔑 주요 API 경로
