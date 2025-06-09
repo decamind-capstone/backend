@@ -14,10 +14,10 @@ LLM 기반 자연어 질문에 대해 관련 사내 문서를 검색하고, 응�
 cd backend
 ### 2. 가상환경 실행
 
-# PowerShell
+##### PowerShell
 .\venv\Scripts\Activate.ps1
 
-# 또는 CMD
+###### 또는 CMD
 venv\Scripts\activate.bat
 
 ### 3. 패키지 설치
@@ -36,7 +36,7 @@ uvicorn main:app --reload
 
 http://localhost:8000/docs
 
-🔑 주요 API 경로
+# 🔑 주요 API 경로
 Endpoint	Method	설명
 /v1/conversations/	POST	새 대화 생성
 /v1/conversations/	GET	대화 목록 조회
@@ -45,7 +45,7 @@ Endpoint	Method	설명
 /v1/ask/	POST	질문 전송 (RAG 기반 응답)
 /v1/history/{conversation_id}	GET	해당 대화의 질문/답변 히스토리 조회
 
-📁 주요 폴더 및 파일 설명
+# 📁 주요 폴더 및 파일 설명
 main.py
 FastAPI 앱 인스턴스를 생성하고 라우터를 등록합니다.
 
