@@ -1,9 +1,8 @@
-# backend-fastapi
+# 📦 backend-fastapi - RAG 기반 문서 검색 챗봇 (FastAPI)
 
-# 📦 backend - RAG 기반 문서 검색 챗봇 (FastAPI)
-
-기업 내 기술 문서 검색을 위한 RAG 기반 챗봇 백엔드입니다.  
-LLM 기반 자연어 질문에 대해 관련 사내 문서를 검색하고, 응답을 생성해주는 역할을 합니다.
+기업 내 기술 문서를 효율적으로 검색하기 위한 **RAG 기반의 챗봇 백엔드**입니다.  
+FastAPI, LangChain, HuggingFace 기반으로 구축되었으며,  
+자연어 질문에 대해 관련 문서를 검색하고 응답을 생성합니다.
 
 ---
 
@@ -11,98 +10,124 @@ LLM 기반 자연어 질문에 대해 관련 사내 문서를 검색하고, 응�
 
 ### 1. 프로젝트 폴더 이동
 
+```bash
 cd backend
+```
+
 ### 2. 가상환경 실행
 
-##### PowerShell
+```bash
+# PowerShell
 .\venv\Scripts\Activate.ps1
 
-###### 또는 CMD
+# 또는 CMD
 venv\Scripts\activate.bat
+```
 
 ### 3. 패키지 설치
 
+```bash
 pip install -r requirements.txt
+```
 
 ### 4. 도커로 MySQL 실행
 
+```bash
 docker-compose -f docker-compose-dev.yaml up -d
+```
 
-### 5. 서버 실행
+### 5. FastAPI 서버 실행
 
+```bash
 uvicorn main:app --reload
+```
 
 ### 6. Swagger 문서 접속
 
-http://localhost:8000/docs
+[http://localhost:8000/docs](http://localhost:8000/docs)
 
-# 🔑 주요 API 경로
-Endpoint	Method	설명
-/v1/conversations/	POST	새 대화 생성
-/v1/conversations/	GET	대화 목록 조회
-/v1/conversations/{id}	PUT	대화 제목 수정
-/v1/conversations/{id}	DELETE	대화 삭제
-/v1/ask/	POST	질문 전송 (RAG 기반 응답)
-/v1/history/{conversation_id}	GET	해당 대화의 질문/답변 히스토리 조회
+---
 
-# 📁 주요 폴더 및 파일 설명
-main.py
-FastAPI 앱 인스턴스를 생성하고 라우터를 등록합니다.
+## 🔑 주요 API 요약
 
-router/
-API 엔드포인트들을 담당합니다:
+| Endpoint                             | Method | 설명                                 |
+|--------------------------------------|--------|--------------------------------------|
+| `/v1/conversations/`                 | POST   | 새 대화 생성 (자동 요약 제목 포함)  |
+| `/v1/conversations/`                 | GET    | 전체 대화 목록 조회                  |
+| `/v1/conversations/{id}`             | PUT    | 대화 제목 수정                       |
+| `/v1/conversations/{id}`             | DELETE | 대화 삭제                            |
+| `/v1/ask/`                           | POST   | 질문 전송 (RAG 기반 응답 생성)      |
+| `/v1/history/{conversation_id}`      | GET    | 특정 대화의 질문/답변 히스토리 조회 |
+| `/v1/history/{history_id}/bookmark`  | PUT    | 질문/답변에 대한 찜 토글            |
 
-conversation.py - 대화 생성, 조회, 수정, 삭제
+---
 
-ask.py - 질문 처리 (RAG 연동)
+## 📁 폴더 구조 및 역할
 
-chat_history.py - 대화 히스토리 조회
+```
+backend/
+│
+├── main.py                 # FastAPI 앱 실행 지점
+├── router/                # API 라우터 모음
+│   ├── conversation.py    # 대화 생성/조회/수정/삭제
+│   ├── ask.py             # 질문 처리 (RAG 연동)
+│   └── chat_history.py    # 대화 히스토리 및 찜 처리
+│
+├── db/                    # DB 연동 및 ORM 정의
+│   ├── database.py        # SQLAlchemy DB 연결 설정
+│   └── models.py          # CONVERSATION, CHAT_HISTORY 테이블 정의
+│
+├── rag_pipeline/          # RAG Pipeline 구성
+│   ├── llm.py             # LLM 로딩 (HuggingFace)
+│   └── retriever.py       # VectorDB + LangChain QA 체인 설정
+│
+├── core/
+│   └── config.py          # .env 불러오기 설정
+│
+├── init/
+│   └── schema.sql         # MySQL 초기 테이블 정의
+```
 
-db/
-데이터베이스 연결 및 ORM 모델 정의:
+---
 
-database.py - SQLAlchemy 연결 설정
+## 🐳 Docker
 
-models.py - CONVERSATION / CHAT_HISTORY 테이블 정의
+- `docker-compose-dev.yaml`: MySQL 개발 컨테이너 실행 설정
+- `init/schema.sql`: 최초 컨테이너 실행 시 DB 자동 생성
+- `Dockerfile`: FastAPI 앱을 이미지화할 때 사용 (선택)
 
-core/
-앱 전역 설정 관리
+---
 
-config.py - .env 파일의 환경변수 불러오기
+## ⚠️ 유의사항
 
-rag_pipeline/
-RAG 구성 요소:
+- `.env` 파일은 절대 Git에 커밋되지 않도록 주의하세요. (`.gitignore` 포함)
+- `bitsandbytes`, `sentencepiece`, `transformers` 등 일부 LLM 관련 패키지는 모델에 따라 별도 설치 필요
+- 로컬 GPU 사용 시 `torch_dtype`, `device_map`, `bnb_config` 등을 환경에 맞게 조정해야 합니다.
 
-llm.py - LLM 로딩 및 HuggingFace 파이프라인 생성
+---
 
-retriever.py - 벡터 DB 로딩 및 LangChain QA 체인 설정
+## 🤝 프론트엔드 연동 정보
 
-# 🐳 Docker 관련
-docker-compose-dev.yaml
-개발 환경용 MySQL 컨테이너 설정
+React 기반 UI와 연동되며, 다음 API를 호출합니다:
 
-init/schema.sql 파일로 DB 자동 초기화
+- `/v1/conversations` (사이드바 대화 목록 표시 및 생성)
+- `/v1/ask` (질문 제출 → 응답 생성)
+- `/v1/history/{conversation_id}` (채팅 히스토리 조회)
+- `/v1/history/{history_id}/bookmark` (답변 즐겨찾기)
 
-Dockerfile (선택)
-FastAPI 앱 도커 이미지로 패키징 시 사용
+프론트와 백엔드는 CORS 설정이 완료되어 있어 다른 포트에서도 연동 가능합니다.
 
-# ⚠️ 주의사항
-.env 파일은 절대 깃허브에 올리지 마세요 (.gitignore에 등록됨)
+---
 
-서버 실행 전 Docker MySQL이 정상 실행되고 있는지 확인하세요.
+## ✅ 최근 구현 기능
 
-SentencePiece, bitsandbytes, transformers 등의 의존성은 모델에 따라 추가 설치가 필요할 수 있습니다.
+- [x] 답변 생성까지 딜레이 시 로딩 UI 대응 (프론트 처리)
+- [x] 답변 찜 기능 (`PUT /v1/history/{id}/bookmark`)
+- [x] 대화 제목 자동 생성 (최근 질문 기반 요약 생성)
 
-# 🤝 프론트엔드 연동 정보
-프론트는 React 기반이며, 다음 API를 호출합니다:
+---
 
-/v1/conversations (생성/조회/수정/삭제)
-
-/v1/ask (질문 전송)
-
-/v1/history/{conversation_id} (히스토리 표시)
-
-백엔드는 CORS 설정이 되어 있어 포트가 달라도 연동이 가능합니다.
+> 📌 모든 기능은 Swagger에서 직접 테스트 가능합니다.
 
 
 
