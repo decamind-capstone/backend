@@ -14,7 +14,13 @@ FastAPI, LangChain, HuggingFace 기반으로 구축되었으며,
 cd backend
 ```
 
-### 2. 가상환경 실행
+### 2. 도커로 MySQL 실행
+
+```bash
+docker-compose -f docker-compose-dev.yaml up -d
+```
+
+### 3. 가상환경 실행
 
 ```bash
 # PowerShell
@@ -24,16 +30,10 @@ cd backend
 venv\Scripts\activate.bat
 ```
 
-### 3. 패키지 설치
+### 4. 패키지 설치
 
 ```bash
 pip install -r requirements.txt
-```
-
-### 4. 도커로 MySQL 실행
-
-```bash
-docker-compose -f docker-compose-dev.yaml up -d
 ```
 
 ### 5. FastAPI 서버 실행
