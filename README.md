@@ -78,8 +78,6 @@ backend/
 │   └── models.py          # CONVERSATION, CHAT_HISTORY 테이블 정의
 │
 ├── rag_pipeline/          # RAG Pipeline 구성
-│   ├── llm.py             # LLM 로딩 (HuggingFace)
-│   └── retriever.py       # VectorDB + LangChain QA 체인 설정
 │
 ├── core/
 │   └── config.py          # .env 불러오기 설정
