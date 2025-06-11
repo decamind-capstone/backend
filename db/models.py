@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, ForeignKey, BigInteger, Text
+from sqlalchemy import Column, String, DateTime, ForeignKey, BigInteger, Text, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from db.database import engine
@@ -27,8 +27,10 @@ class ChatHistoryDB(Base):
     QUESTION = Column(Text, nullable=False)
     ANSWER = Column(Text, nullable=False)
     CREATED_AT = Column(DateTime, nullable=False, default=datetime.utcnow)
+    IS_BOOKMARKED = Column(Boolean, default=False)
 
-    conversation = relationship("ConversationDB", back_populates="histories")  # ✅ 수정
+    conversation = relationship("ConversationDB", back_populates="histories")  
+    
 
 # 매퍼 적용
 Base.metadata.create_all(bind=engine)
